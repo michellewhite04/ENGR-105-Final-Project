@@ -18,6 +18,25 @@ cycle_length = 0; % initialize outside of loop
 RCL_counter = 0;
 RCL = 0;
 VTCL = 0;
+
+% coordinates of paths
+x = {[0, -sqrt(3)/2]; % SPA
+     [-sqrt(3)/2, -sqrt(3)/2]; % SPB
+     [-sqrt(3)/2, 0]; % SPC
+     [sqrt(3)/2, 0]; % FPA
+     [sqrt(3)/2, sqrt(3)/2]; % FPB
+     [0, sqrt(3)/2]}; % FPC
+ 
+y = {[1, 1/2]; % SPA
+     [1/2, -1/2]; % SPB
+     [-1/2, -1]; % SPC
+     [1/2, 1]; % FPA
+     [-1/2, 1/2]; % FPB
+     [-1, -1/2]}; % FPC
+ 
+% x and y coords of node centers
+cx = [0, -sqrt(3)/2, -sqrt(3)/2, 0, sqrt(3)/2, sqrt(3)/2];
+cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
  
  % Running the model
  while t<=30000
@@ -26,7 +45,7 @@ VTCL = 0;
         [node_table,path_table]=heart_model(node_table,path_table);
         
         % first impulse
-        if t==4125
+        if t==40
             node_table{1,9} = 1;
             premature(t) = 1;
         end
@@ -107,7 +126,7 @@ VTCL = 0;
         int_retro(t) = path_table{7,14};
     
         % Circuit Image
-        % circuit_example(node_table, path_table);
+        circuit_example(x, y, cx, cy, node_table, path_table, t);
         
      t=t+1;
      
@@ -141,29 +160,29 @@ title('SPA-A')
 % plot(SPA_ante)
 % title('SPA-A')
 %  
-% subplot(9,1,5)
+% subplot(6,1,2)
 % plot(SPB_ante)
 % title('SPB-A')
 % 
-% subplot(4,1,3)
+% subplot(6,1,3)
 % plot(SPC_ante)
 % title('SPC-A')
-%  
-% subplot(7,1,6)
+ 
+% subplot(6,1,4)
 % plot(FPC_retro)
 % title('FPC-R')
 % 
-% subplot(9,1,8)
+% subplot(6,1,5)
 % plot(FPB_retro)
 % title('FPB-R')
+
+subplot(4,1,4)
+plot(FPA_retro)
+title('FPA-R')
 
 % subplot(4,1,4)
 % plot(FPA_retro)
 % title('FPA-R')
-% 
-subplot(4,1,4)
-plot(FPA_retro)
-title('FPA-R')
 
 % subplot(4,1,4)
 % plot(FPC_ante)
@@ -172,5 +191,5 @@ title('FPA-R')
 % plot(CL_tracker)
 % plot(RCL_tracker)
 
-circuit_example(node_table, path_table);
+% circuit_example(node_table, path_table);
  
