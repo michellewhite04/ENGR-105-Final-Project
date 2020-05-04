@@ -5,11 +5,11 @@ close all
 create_scenarios;
 
 
-premature = zeros(1,30000); % for graphing premature impulse
-impulse = zeros(1,30000);  % for graphing ATP impulses
-node_1_tracker = zeros(1,30000);
-CL_tracker = zeros(1,30000);
-RCL_tracker = zeros(1,30000);
+premature = zeros(1,4000); % for graphing premature impulse
+impulse = zeros(1,4000);  % for graphing ATP impulses
+node_1_tracker = zeros(1,4000);
+CL_tracker = zeros(1,4000);
+RCL_tracker = zeros(1,4000);
 
 
 t=1;
@@ -39,19 +39,16 @@ cx = [0, -sqrt(3)/2, -sqrt(3)/2, 0, sqrt(3)/2, sqrt(3)/2];
 cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
  
  % Running the model
- while t<=30000
+ while t<=4000
      
         % Heart Model
         [node_table,path_table]=heart_model(node_table,path_table);
         
         % first impulse
-        if t==40
+        %120 initiates tachicardia
+        if t==120
             node_table{1,9} = 1;
             premature(t) = 1;
-        end
-        
-        if t==8493
-            a = 1;
         end
         
         if t==1000
@@ -126,7 +123,7 @@ cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
         int_retro(t) = path_table{7,14};
     
         % Circuit Image
-        circuit_example(x, y, cx, cy, node_table, path_table, t);
+        %circuit_example(x, y, cx, cy, node_table, path_table, t);
         
      t=t+1;
      
@@ -191,5 +188,5 @@ title('FPA-R')
 % plot(CL_tracker)
 % plot(RCL_tracker)
 
-% circuit_example(node_table, path_table);
+
  

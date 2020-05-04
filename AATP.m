@@ -101,11 +101,11 @@ function [node_table, ATP_table, RCL, RCL_counter] = AATP(node_table, ATP_table,
                  if RCL < VTCL - margin %LOC
                      if ATP_table{20} == 0
 %                        ATP_table{3} = ceil(abs(((RCL - VTCL)/(VTCL - ATP_table{5})))) + 1; % set according to Kaiser eqn
-                        ATP_table{5} = ATP_table{5} + 70;
+                        ATP_table{5} = ATP_table{5} + 7;
                         ATP_table{1} = 2;
                      else
 %                         ATP_table{21} = ATP_table{21} - 10;
-                        ATP_table{5} = ATP_table{5} + 70;
+                        ATP_table{5} = ATP_table{5} + 7;
                         ATP_table{1} = 2;
                         
                      end

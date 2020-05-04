@@ -62,7 +62,7 @@ ATP_table = cell(1,23);
 %be sure to set ATP_table{4} = ATP_table{5} from start
 
 %ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
-ATP_table = {1, 0, 7, 33, 33, 0, 1, 0, 12, 0, 12, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
+ATP_table = {1, 0, 7, 45, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
 
 %save mat structure
 save('reentry.mat', 'node_table', 'path_table');
