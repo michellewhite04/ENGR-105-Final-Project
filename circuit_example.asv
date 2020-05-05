@@ -1,4 +1,4 @@
-function circuit_example(x, y, cx, cy, node_table, path_table, iteration, imdata)
+function circuit_example(x, y, cx, cy, node_table, path_table, iteration, imdata, crash)
 node_color = cell(6,1);
 
 state = zeros(1,6); % to store the current state of each path
@@ -35,61 +35,60 @@ a = 1;
 b = 2;
 for i = 1:6
     if state(i) == 1 % antegrade conduction
-        xi = linspace(x{i}(a), x{i}(b), 10000); 
-        yi = linspace(y{i}(a), y{i}(b), 10000); 
+        xi = linspace(x{i}(a), x{i}(b), 1000); 
+        yi = linspace(y{i}(a), y{i}(b), 1000); 
         difference = length(xi) / path_table{i,9};
         increment = difference * (path_table{i,9} - path_table{i,8});
         if increment == 0
             increment = 1;
         end
-        c = linspace(0, 1, increment);
+        c = linspace(0, .5, increment);
         
         scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
      
     elseif state(i) == 2 % retrograde conduction
-        xi = linspace(x{i}(b), x{i}(a), 10000); 
-        yi = linspace(y{i}(b), y{i}(a), 10000); 
+        xi = linspace(x{i}(b), x{i}(a), 1000); 
+        yi = linspace(y{i}(b), y{i}(a), 1000); 
         difference = length(xi) / path_table{i,11};
         increment = difference * (path_table{i,11} - path_table{i,10});
         if increment == 0
             increment = 1;
         end
-        c = linspace(0, 1, increment);
+        c = linspace(0, .5, increment);
         
         scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
         
     elseif state(i) == 3 || state(i) == 0 % idle or temp (rare)
-        xi = linspace(x{i}(2), x{i}(1), 10000); 
-        yi = linspace(y{i}(2), y{i}(1), 10000);
+        xi = linspace(x{i}(a), x{i}(b), 1000); 
+        yi = linspace(y{i}(a), y{i}(b), 1000);
         
-        c = 'k';
-        
-        scatter(xi, yi, [], c, 'filled');
+        if crash(i) == 1
+            scatter(xi, yi, [], 'r', 'filled');
+        else
+            scatter(xi, yi, [], 'k', 'filled');
+        end
         
     elseif state(i) == 4
-        if crash
-            cA = 'r';
-            cR = 'r';
-        else
-            xi = linspace(x{i}(a), x{i}(b), 10000);
-            yi = linspace(y{i}(a), y{i}(b), 10000);
-            differenceAnte = length(xi) / path_table{i,9};
-            differenceRetro = length(xi) / path_table{i,11};
-            incrementAnte = differenceAnte * (path_table{i,9} - path_table{i,8});
-            incrementRetro = differenceRetro * (path_table{i,11} - path_table{i,10});
-            if incrementAnte == 0
-                incrementAnte = 1;
-            end
-            
-            cA = linspace(0, 1, incrementAnte);
-            cR = linspace(1, 0, incrementRetro + 1);
-            
-            scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
-            scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
-            scatter(xi(end-incrementRetro:end), yi(end-incrementRetro:end), [], cR, 'filled');
+        
+        xi = linspace(x{i}(a), x{i}(b), 1000);
+        yi = linspace(y{i}(a), y{i}(b), 1000);
+        differenceAnte = length(xi) / path_table{i,9};
+        differenceRetro = length(xi) / path_table{i,11};
+        incrementAnte = differenceAnte * (path_table{i,9} - path_table{i,8});
+        incrementRetro = differenceRetro * (path_table{i,11} - path_table{i,10});
+        if incrementAnte == 0
+            incrementAnte = 1;
         end
+        
+        cA = linspace(0, .5, incrementAnte);
+        cR = linspace(1, 0, incrementRetro + 1);
+        
+        scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
+        scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
+        scatter(xi(end-incrementRetro:end), yi(end-incrementRetro:end), [], cR, 'filled');
+        
     end
     
     hold on;

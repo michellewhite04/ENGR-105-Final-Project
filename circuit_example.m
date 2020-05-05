@@ -35,8 +35,8 @@ a = 1;
 b = 2;
 for i = 1:6
     if state(i) == 1 % antegrade conduction
-        xi = linspace(x{i}(a), x{i}(b), 10000); 
-        yi = linspace(y{i}(a), y{i}(b), 10000); 
+        xi = linspace(x{i}(a), x{i}(b), 1000); 
+        yi = linspace(y{i}(a), y{i}(b), 1000); 
         difference = length(xi) / path_table{i,9};
         increment = difference * (path_table{i,9} - path_table{i,8});
         if increment == 0
@@ -48,8 +48,8 @@ for i = 1:6
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
      
     elseif state(i) == 2 % retrograde conduction
-        xi = linspace(x{i}(b), x{i}(a), 10000); 
-        yi = linspace(y{i}(b), y{i}(a), 10000); 
+        xi = linspace(x{i}(b), x{i}(a), 1000); 
+        yi = linspace(y{i}(b), y{i}(a), 1000); 
         difference = length(xi) / path_table{i,11};
         increment = difference * (path_table{i,11} - path_table{i,10});
         if increment == 0
@@ -61,8 +61,8 @@ for i = 1:6
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
         
     elseif state(i) == 3 || state(i) == 0 % idle or temp (rare)
-        xi = linspace(x{i}(a), x{i}(b), 10000); 
-        yi = linspace(y{i}(a), y{i}(b), 10000);
+        xi = linspace(x{i}(a), x{i}(b), 1000); 
+        yi = linspace(y{i}(a), y{i}(b), 1000);
         
         if crash(i) == 1
             scatter(xi, yi, [], 'r', 'filled');
@@ -72,8 +72,8 @@ for i = 1:6
         
     elseif state(i) == 4
         
-        xi = linspace(x{i}(a), x{i}(b), 10000);
-        yi = linspace(y{i}(a), y{i}(b), 10000);
+        xi = linspace(x{i}(a), x{i}(b), 1000);
+        yi = linspace(y{i}(a), y{i}(b), 1000);
         differenceAnte = length(xi) / path_table{i,9};
         differenceRetro = length(xi) / path_table{i,11};
         incrementAnte = differenceAnte * (path_table{i,9} - path_table{i,8});
