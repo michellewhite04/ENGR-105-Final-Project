@@ -34,7 +34,7 @@ path_table=cell(7,15);
 
 %initialize tables
 node_table = {
-    'One', 1, 1, 1, 0, 0, 100, 100, 0, 0, 0, 0, 0;
+    'One', 1, 1, 1, 0, 0, 100, 100, 1, 0, 0, 0, 0;
     'Two', 1, 8, 8, 0, 0, inf, inf, 0, 0, 0, 0, 0;
     'Three', 1, 8, 8, 0, 0, inf, inf, 0, 0, 0, 0, 0;
     'Four', 1, 1, 1, 0, 0, inf, inf, 0, 0, 0, 0, 0;
