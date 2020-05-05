@@ -104,8 +104,8 @@ for i = 1:6
         %cR = linspace(1, 0, incrementRetro + 1);
         
         scatter(xi, yi, [], 'k', 'filled');
-        scatter(xiAnte(incrementAnte), yiAnte(incrementAnte), [], 'y', 'filled');
-        scatter(xiRetro(incrementRetro), yiRetro(incrementRetro), [], 'y', 'filled');
+        scatter(xiAnte(incrementAnte), yi(incrementAnte), [], 'y', 'filled');
+        scatter(xi(incrementRetro), yi(incrementRetro), [], 'y', 'filled');
         
         %scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
         %scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
