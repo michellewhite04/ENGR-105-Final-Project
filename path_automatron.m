@@ -1,4 +1,4 @@
-function [path_para,temp_act_1,temp_act_2]=path_automatron(path_para,node_act_1,node_act_2)
+function [path_para,temp_act_1,temp_act_2, crash]=path_automatron(path_para,node_act_1,node_act_2, crash)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This function update the status of a single path
 %
@@ -88,35 +88,36 @@ switch path_para{2}
         
     case 5 % double
                   
-       if path_para{10}==0 %retro was finished anyway
-%                reset timer
-               path_para{10}=path_para{11};
-%                activate the entry node
-               temp_act_1=1;
-%                change state to ante
-               path_para{2}=2;
-               return
-       end
-      if path_para{8}==0 %ante was finished anyway
-%                reset timer
-              path_para{8}=path_para{9};
-%                activate exit node
-               temp_act_2=1;
-%                go to retro state
-               path_para{2}=3;
-               return
-      end
-      
-%      starts negative,value increases, absolute value decreases
-       if abs(1-path_para{8}/path_para{9}-path_para{10}/path_para{11})<0.9/min([path_para{9},path_para{11}])
-               path_para{10}=path_para{11};
-               path_para{8}=path_para{9};
-               path_para{2}=4; % eventually crash and return to conflict state
-                
-       else
-           path_para{8}=path_para{8}-1;
-           path_para{10}=path_para{10}-1;
-      end
+        if path_para{10}==0 %retro was finished anyway
+            % reset timer
+            path_para{10}=path_para{11};
+            % activate the entry node
+            temp_act_1=1;
+            % change state to ante
+            path_para{2}=2;
+            return
+        end
+        if path_para{8}==0 %ante was finished anyway
+            %                reset timer
+            path_para{8}=path_para{9};
+            %                activate exit node
+            temp_act_2=1;
+            %                go to retro state
+            path_para{2}=3;
+            return
+        end
+        
+        % this threshold makes a difference!!!
+        if abs(1-path_para{8}/path_para{9}-path_para{10}/path_para{11})<1.1/min([path_para{9},path_para{11}])
+            path_para{10}=path_para{11};
+            path_para{8}=path_para{9};
+            path_para{2}=4; % eventually crash and go to temp state
+            crash = 1;
+            
+        else
+            path_para{8}=path_para{8}-1;
+            path_para{10}=path_para{10}-1;
+        end
         
 end
 

@@ -23,30 +23,34 @@ VTCL = 0;
 x = {[0, -sqrt(3)/2]; % SPA
      [-sqrt(3)/2, -sqrt(3)/2]; % SPB
      [-sqrt(3)/2, 0]; % SPC
-     [sqrt(3)/2, 0]; % FPA
+     [0, sqrt(3)/2]; % FPA
      [sqrt(3)/2, sqrt(3)/2]; % FPB
-     [0, sqrt(3)/2]}; % FPC
+     [sqrt(3)/2, 0]}; % FPC
  
 y = {[1, 1/2]; % SPA
      [1/2, -1/2]; % SPB
      [-1/2, -1]; % SPC
-     [1/2, 1]; % FPA
-     [-1/2, 1/2]; % FPB
-     [-1, -1/2]}; % FPC
+     [1, 1/2]; % FPA
+     [1/2, -1/2]; % FPB
+     [-1/2, -1]}; % FPC
  
 % x and y coords of node centers
 cx = [0, -sqrt(3)/2, -sqrt(3)/2, 0, sqrt(3)/2, sqrt(3)/2];
 cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
  
+gifCounter = 1;
+
  % Running the model
- while t<=4000
+ while t <= 4000
      
         % Heart Model
-        [node_table,path_table]=heart_model(node_table,path_table);
+        crash = zeros(1,7); % reset crash before each call to heart_model
+        [node_table,path_table, crash]=heart_model(node_table,path_table, crash);
+        
         
         % first impulse
         %120 initiates tachicardia
-        if t==120
+        if t==20
             node_table{1,9} = 1;
             premature(t) = 1;
         end
@@ -108,22 +112,37 @@ cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
         % activation of entry node = retrograde cond
         
         SPA_ante(t) = path_table{1,15};
-        SPA_retro(t) = path_table{1,14};
-        SPB_ante(t) = path_table{2,15}; 
-        SPB_retro(t) = path_table{2,14}; 
-        SPC_ante(t) = path_table{3,15}; 
-        SPC_retro(t) = path_table{3,14}; 
-        FPA_ante(t) = path_table{6,15}; 
-        FPA_retro(t) = path_table{6,14}; 
-        FPB_ante(t) = path_table{5,15}; 
-        FPB_retro(t) = path_table{5,14}; 
-        FPC_ante(t) = path_table{4,15}; 
+%         SPA_retro(t) = path_table{1,14};
+%         SPB_ante(t) = path_table{2,15}; 
+%         SPB_retro(t) = path_table{2,14}; 
+%         SPC_ante(t) = path_table{3,15}; 
+%         SPC_retro(t) = path_table{3,14}; 
+%         FPA_ante(t) = path_table{6,15}; 
+%         FPA_retro(t) = path_table{6,14}; 
+%         FPB_ante(t) = path_table{5,15}; 
+%         FPB_retro(t) = path_table{5,14}; 
+%         FPC_ante(t) = path_table{4,15}; 
         FPC_retro(t) = path_table{4,14}; 
-        int_ante(t) = path_table{7,15};
-        int_retro(t) = path_table{7,14};
+%         int_ante(t) = path_table{7,15};
+%         int_retro(t) = path_table{7,14};
     
+
+        title = ['heart', num2str(gifCounter), '.jpg'];
+        imdata = imread(title);
+        
+        
         % Circuit Image
-        %circuit_example(x, y, cx, cy, node_table, path_table, t);
+        circuit_example(x, y, cx, cy, node_table, path_table, t, imdata, crash);
+        
+        if gifCounter == 24
+            gifCounter = 1;
+        elseif gifCounter < 24
+            gifCounter = gifCounter + 1;
+        end
+        
+
+
+       
         
      t=t+1;
      
@@ -172,18 +191,14 @@ title('SPA-A')
 % subplot(6,1,5)
 % plot(FPB_retro)
 % title('FPB-R')
-
+% 
 subplot(4,1,4)
-plot(FPA_retro)
-title('FPA-R')
+plot(FPC_retro)
+title('FPC-R')
 
 % subplot(4,1,4)
-% plot(FPA_retro)
-% title('FPA-R')
-
-% subplot(4,1,4)
-% plot(FPC_ante)
-% title('FPC-A')
+% plot(FPA_ante)
+% title('FPA-A')
 
 % plot(CL_tracker)
 % plot(RCL_tracker)

@@ -1,4 +1,4 @@
-function [node_table,path_table]=heart_model(node_table,path_table)
+function [node_table,path_table, crash]=heart_model(node_table,path_table, crash)
 % The function update the parameters for nodes and paths in one time stamp
 %
 % Inputs:
@@ -56,7 +56,7 @@ function [node_table,path_table]=heart_model(node_table,path_table)
        for i=1:size(path_table,1)
            
            % update parameters for each path
-           [temp_path(i,:),node_act_1,node_act_2]=path_automatron(path_table(i,:),node_table{path_table{i,3},9},node_table{path_table{i,4},9});
+           [temp_path(i,:),node_act_1,node_act_2, crash(i)]=path_automatron(path_table(i,:),node_table{path_table{i,3},9},node_table{path_table{i,4},9}, crash(i));
            
            %-----------------------------------------------------------
            % for graphing purposes
