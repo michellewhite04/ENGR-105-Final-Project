@@ -34,6 +34,9 @@ end
 a = 1;
 b = 2;
 for i = 1:6
+    c = [];
+    cA = [];
+    cR = [];
     if state(i) == 1 % antegrade conduction
         xi = linspace(x{i}(a), x{i}(b), 1000); 
         yi = linspace(y{i}(a), y{i}(b), 1000); 
@@ -43,13 +46,14 @@ for i = 1:6
         if increment == 0
             increment = 1;
         end
-        %c = linspace(0, 1, increment);
         
-        scatter(xi, yi, [], 'k', 'filled');
-        scatter(xi(increment), yi(increment), [], 'y', 'filled');
+        % gradient from black [0,0,0] to yellow [1,1,0]
+        c(:,1) = linspace(0, 1, increment)';
+        c(:,2) = linspace(0, 1, increment)';
+        c(:,3) = linspace(0, 0, increment)';
         
-        %scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
-        %scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
+        scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
+        scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
      
     elseif state(i) == 2 % retrograde conduction
         xi = linspace(x{i}(b), x{i}(a), 1000); 
@@ -60,13 +64,12 @@ for i = 1:6
         if increment == 0
             increment = 1;
         end
-        %c = linspace(0, 1, increment);
+        c(:,1) = linspace(0, 1, increment)';
+        c(:,2) = linspace(0, 1, increment)';
+        c(:,3) = linspace(0, 0, increment)';
         
-        scatter(xi, yi, [], 'k', 'filled');
-        scatter(xi(increment), yi(increment), [], 'y', 'filled');
-        
-        %scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
-        %scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
+        scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
+        scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
         
     elseif state(i) == 3 || state(i) == 0 % idle or temp (rare)
         xi = linspace(x{i}(a), x{i}(b), 1000); 
@@ -80,11 +83,8 @@ for i = 1:6
         
     elseif state(i) == 4
         
-        xiAnte = linspace(x{i}(a), x{i}(b), 1000);
-        yiAnte = linspace(y{i}(a), y{i}(b), 1000);
-        
-        xiRetro = linspace(x{i}(b), x{i}(a), 1000);
-        yiRetro = linspace(y{i}(b), y{i}(a), 1000);
+        xi = linspace(x{i}(a), x{i}(b), 1000);
+        yi = linspace(y{i}(a), y{i}(b), 1000);
         
         differenceAnte = length(xi) / path_table{i,9};
         differenceAnte=floor(differenceAnte);
@@ -95,21 +95,20 @@ for i = 1:6
         if incrementAnte == 0
             incrementAnte = 1;
         end
-        
         if incrementRetro == 0
             incrementRetro = 1;
         end
         
-        %cA = linspace(0, 1, incrementAnte);
-        %cR = linspace(1, 0, incrementRetro + 1);
+        cA(:,1) = linspace(0, 1, incrementAnte)';
+        cA(:,2) = linspace(0, 1, incrementAnte)';
+        cA(:,3) = linspace(0, 0, incrementAnte)';
+        cR(:,1) = linspace(1, 0, incrementRetro+1)';
+        cR(:,2) = linspace(1, 0, incrementRetro+1)';
+        cR(:,3) = linspace(0, 0, incrementRetro+1)';
         
-        scatter(xi, yi, [], 'k', 'filled');
-        scatter(xiAnte(incrementAnte), yiAnte(incrementAnte), [], 'y', 'filled');
-        scatter(xiRetro(incrementRetro), yiRetro(incrementRetro), [], 'y', 'filled');
-        
-        %scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
-        %scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
-        %scatter(xi(end-incrementRetro:end), yi(end-incrementRetro:end), [], cR, 'filled');
+        scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
+        scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
+        scatter(xi(end-incrementRetro:end), yi(end-incrementRetro:end), [], cR, 'filled');
         
     end
     

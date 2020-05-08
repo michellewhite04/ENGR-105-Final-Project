@@ -38,11 +38,15 @@ for i = 1:6
         xi = linspace(x{i}(a), x{i}(b), 1000); 
         yi = linspace(y{i}(a), y{i}(b), 1000); 
         difference = length(xi) / path_table{i,9};
+        difference=floor(difference);
         increment = difference * (path_table{i,9} - path_table{i,8});
         if increment == 0
             increment = 1;
         end
-        c = linspace(0, .5, increment);
+        % gradient from white [1,1,1] to yellow [1,1,0]
+        c(:,1) = linspace(1, 1, increment)';
+        c(:,2) = linspace(1, 1, increment)';
+        c(:,3) = linspace(1, 0, increment)';
         
         scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
@@ -51,11 +55,14 @@ for i = 1:6
         xi = linspace(x{i}(b), x{i}(a), 1000); 
         yi = linspace(y{i}(b), y{i}(a), 1000); 
         difference = length(xi) / path_table{i,11};
+        difference=floor(difference);
         increment = difference * (path_table{i,11} - path_table{i,10});
         if increment == 0
             increment = 1;
         end
-        c = linspace(0, .5, increment);
+        c(:,1) = linspace(1, 1, increment)';
+        c(:,2) = linspace(1, 1, increment)';
+        c(:,3) = linspace(1, 0, increment)';
         
         scatter(xi(increment+1:end), yi(increment+1:end), [], 'k', 'filled');
         scatter(xi(1:increment), yi(1:increment), [], c, 'filled');
@@ -74,16 +81,23 @@ for i = 1:6
         
         xi = linspace(x{i}(a), x{i}(b), 1000);
         yi = linspace(y{i}(a), y{i}(b), 1000);
+        
         differenceAnte = length(xi) / path_table{i,9};
+        differenceAnte=floor(differenceAnte);
         differenceRetro = length(xi) / path_table{i,11};
+        differenceRetro=floor(differenceRetro);
         incrementAnte = differenceAnte * (path_table{i,9} - path_table{i,8});
         incrementRetro = differenceRetro * (path_table{i,11} - path_table{i,10});
         if incrementAnte == 0
             incrementAnte = 1;
         end
         
-        cA = linspace(0, .5, incrementAnte);
-        cR = linspace(1, 0, incrementRetro + 1);
+        cA(:,1) = linspace(1, 1, increment)';
+        cA(:,2) = linspace(1, 1, increment)';
+        cA(:,3) = linspace(1, 0, increment)';
+        cR(:,1) = linspace(1, 1, increment)';
+        cR(:,2) = linspace(1, 1, increment)';
+        cR(:,3) = linspace(0, 1, increment)';
         
         scatter(xi(incrementAnte+1:end-incrementRetro-1), yi(incrementAnte+1:end-incrementRetro-1), [], 'k', 'filled');
         scatter(xi(1:incrementAnte), yi(1:incrementAnte), [], cA, 'filled');
