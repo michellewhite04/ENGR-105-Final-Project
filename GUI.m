@@ -128,6 +128,7 @@ item = handles.ATP_Selector.Value;
 
 if item == 1
     handles.slider1.Value = handles.option1.cValue;
+    
     handles.slider1.Min = handles.option1.minValue;
     handles.slider1.Max = handles.option1.maxValue;
 elseif item == 2
