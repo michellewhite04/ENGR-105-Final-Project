@@ -1,9 +1,6 @@
-clear
-clc
-close all
+function main(node_table, path_table, ATP_table)
 
-create_scenarios;
-
+a = 1;
 
 premature = zeros(1,4000); % for graphing premature impulse
 impulse = zeros(1,4000);  % for graphing ATP impulses

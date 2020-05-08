@@ -92,26 +92,20 @@ handles.option8.minValue = 4;
 handles.option8.maxValue = 7;
 
 % SET THE PULLDOWN TO OPTION 1 AND UPDATE THE SLIDER.
-handles.ATP_Selector.Value = 1;
-handles.slider1.Min = handles.option1.minValue;
-handles.slider1.Max = handles.option1.maxValue;
-handles.slider1.Value = handles.option1.cValue;
+handles.ATP_Selector.Value = 3;
+handles.slider1.Min = handles.option3.minValue;
+handles.slider1.Max = handles.option3.maxValue;
+handles.slider1.Value = handles.option3.cValue;
 
-set(handles.text4, 'String', num2str(handles.option1.minValue), 'FontSize', 16);
-set(handles.text5, 'String', num2str(handles.option1.maxValue), 'FontSize', 16);
+set(handles.text4, 'String', num2str(handles.option3.minValue));
+set(handles.text5, 'String', num2str(handles.option3.maxValue));
 
 bigBox = {['Beats per train is: ',num2str(handles.option1.cValue)]; 
     ['Cycle length is: ',num2str(handles.option2.cValue)]; 
     ['Number of detection beats for VT is: ',num2str(handles.option3.cValue)]; 
-    ['Number of detection beats for FVT is: ',num2str(handles.option4.cValue)]; 
-    ['VT cycle length threshold is: ',num2str(handles.option5.cValue)]; 
-    ['FVT cycle length threshold is: ',num2str(handles.option6.cValue)]; 
-    ['Number of extrastimuli is: ',num2str(handles.option7.cValue)]; 
-    ['Extrastimulus cycle length value is: ',num2str(handles.option8.cValue)]}; 
+    'Number of detection beats for FVT is: ',num2str(handles.option4.cValue); 'VT cycle length threshold is: ',num2str(handles.option5.cValue); 'FVT cycle length threshold is: ',num2str(handles.option6.cValue); 'Number of extrastimuli is: ',num2str(handles.option7.cValue); 'Extrastimulus cycle length value is: ',num2str(handles.option8.cValue)}; 
 
-set(handles.text6, 'String', bigBox, 'FontSize', 16);
-
-handles.slider1.SliderStep = [1/(handles.slider1.Max - handles.slider1.Min), 1/(handles.slider1.Max - handles.slider1.Min)];
+set(handles.text6, 'String', bigBox);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -155,12 +149,10 @@ elseif item == 2
     handles.slider1.Value = handles.option2.cValue;
     handles.slider1.Min = handles.option2.minValue;
     handles.slider1.Max = handles.option2.maxValue;
-    
 elseif item == 3
     handles.slider1.Value = handles.option3.cValue;
     handles.slider1.Min = handles.option3.minValue;
     handles.slider1.Max = handles.option3.maxValue;
-    
 elseif item == 4
     handles.slider1.Value = handles.option4.cValue;
     handles.slider1.Min = handles.option4.minValue;
@@ -169,28 +161,21 @@ elseif item == 5
     handles.slider1.Value = handles.option5.cValue;
     handles.slider1.Min = handles.option5.minValue;
     handles.slider1.Max = handles.option5.maxValue;
-    
 elseif item == 6
     handles.slider1.Value = handles.option6.cValue;
     handles.slider1.Min = handles.option6.minValue;
     handles.slider1.Max = handles.option6.maxValue;
-    
 elseif item == 7
     handles.slider1.Value = handles.option7.cValue;
     handles.slider1.Min = handles.option7.minValue;
     handles.slider1.Max = handles.option7.maxValue;
-    
 elseif item == 8
     handles.slider1.Value = handles.option8.cValue;
     handles.slider1.Min = handles.option8.minValue;
     handles.slider1.Max = handles.option8.maxValue;
-    
 end
 
 handles.slider1.SliderStep = [1/(handles.slider1.Max - handles.slider1.Min), 1/(handles.slider1.Max - handles.slider1.Min)];
-
-set(handles.text4, 'String', num2str(handles.slider1.Min), 'FontSize', 16);
-set(handles.text5, 'String', num2str(handles.slider1.Max), 'FontSize', 16);
 
 end
     
@@ -258,23 +243,21 @@ switch myThing
         
 end
 
-% REPORT THE VALUES ASSOCIATED WITH THE SLIDER POSITION FOR EACH
-% VALUE - JUST TO CHECK THAT VALUES ARE BEING TRACKED NICELY.
-
-bigBox = {['Beats per train is: ',num2str(handles.option1.cValue)]; 
-    ['Cycle length is: ',num2str(handles.option2.cValue)]; 
-    ['Number of detection beats for VT is: ',num2str(handles.option3.cValue)]; 
-    ['Number of detection beats for FVT is: ',num2str(handles.option4.cValue)]; 
-    ['VT cycle length threshold is: ',num2str(handles.option5.cValue)]; 
-    ['FVT cycle length threshold is: ',num2str(handles.option6.cValue)]; 
-    ['Number of extrastimuli is: ',num2str(handles.option7.cValue)]; 
-    ['Extrastimulus cycle length value is: ',num2str(handles.option8.cValue)]}; 
-
-set(handles.text6, 'String', bigBox, 'FontSize', 16);
-
 % DONT FORGET TO SAVE THE HANDLES STRUCTURE AS WE HAVE UPDATES THE
 % cValue VARIABLES WE WANT TO TRACK!
 guidata(hObject,handles)
+
+% REPORT THE VALUES ASSOCIATED WITH THE SLIDER POSITION FOR EACH
+% VALUE - JUST TO CHECK THAT VALUES ARE BEING TRACKED NICELY.
+disp('*******************')
+disp(['Beats per train is: ',num2str(handles.option1.cValue)])
+disp(['Cycle length is: ',num2str(handles.option2.cValue)])
+disp(['Number of detection beats for VT is: ',num2str(handles.option3.cValue)])
+disp(['Number of detection beats for FVT is: ',num2str(handles.option4.cValue)])
+disp(['VT cycle length threshold is: ',num2str(handles.option5.cValue)])
+disp(['FVT cycle length threshold is: ',num2str(handles.option6.cValue)])
+disp(['Number of extrastimuli is: ',num2str(handles.option7.cValue)])
+disp(['Extrastimulus cycle length value is: ',num2str(handles.option8.cValue)])
 
 end
 
