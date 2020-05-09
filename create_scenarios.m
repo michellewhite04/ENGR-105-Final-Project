@@ -1,6 +1,4 @@
-clear
-clc
-close all
+function [node_table, path_table, ATP_table] = create_scenarios(impulse_counter_def, waiting_def, detection_counter_VT_max, detection_counter_FVT_max, threshold_VT_max, threshold_VT_FVT, ES_def, ES_waiting)
 
 % node_table: Cell array, each row contains parameters for one node
 %
@@ -25,7 +23,7 @@ close all
 %          detection_counter_FVT, detection_counter_FVT_max, CL_window, 
 %          detection_sum_VT, detection_sum_FVT,
 %          redection_counter_cur, redetection_counter_def,
-%          threshold_VT_max, threshold_VT/FVT, ES_cur, ES_def,
+%          threshold_VT_max, threshold_VT_FVT, ES_cur, ES_def,
 %          ES_waiting, decision_apply, decision_termination}
 
 %create tables for reentry
@@ -62,8 +60,11 @@ ATP_table = cell(1,23);
 %be sure to set ATP_table{4} = ATP_table{5} from start
 
 %ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
-ATP_table = {1, 0, 7, 33, 33, 0, 1, 0, 12, 0, 12, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
+ATP_table = {1, 0, impulse_counter_def, 33, waiting_def, 0, 1, 0, detection_counter_VT_max, 0, detection_counter_FVT_max, [inf,inf], 0, 0, 2, 2, threshold_VT_max, threshold_VT_FVT, 0, ES_def, ES_waiting, 0, 0};
+
+a = 1;
+
 
 %save mat structure
-save('reentry.mat', 'node_table', 'path_table');
-save('AATP.mat', 'ATP_table');
+% save('reentry.mat', 'node_table', 'path_table');
+% save('AATP.mat', 'ATP_table');
