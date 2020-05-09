@@ -1,4 +1,4 @@
-function [ATP_table] = detection(t, cycle_length, ATP_table)
+function [ATP_table] = detection(t, cycle_length, ATP_table, realTimeVis)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % format: {ATP_state_index, impulse_counter_cur, impulse_counter_def, 
@@ -45,12 +45,15 @@ function [ATP_table] = detection(t, cycle_length, ATP_table)
                             ATP_table{12} = [inf, inf];
                             ATP_table{13} = 0;
                             ATP_table{14} = 0;
-                            S = 'badsong_48kHz.mp3';
-                            [y,Fs] = audioread(S);
-                            sound(y,Fs)
+                            if realTimeVis == 1 
+                            % only play bad song if realTimeVis is true
+                                S = 'badsong_48kHz.mp3';
+                                [y,Fs] = audioread(S);
+                                sound(y,Fs)
+                            end
                         else
 
-                            ATP_table{23} = 1; % don't apply AATP
+                            ATP_table{23} = 1; % termination
 
                             % still reset values
                             ATP_table{8} = 0;

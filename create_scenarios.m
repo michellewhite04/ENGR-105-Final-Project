@@ -1,5 +1,5 @@
-function [node_table, path_table, ATP_table] = create_scenarios(impulse_counter_def, waiting_def, detection_counter_VT_max, ...
-    detection_counter_FVT_max, threshold_VT_max, threshold_VT_FVT, ES_waiting, LOC_increment, ES_max)
+function [node_table, path_table, ATP_table, videoTitle] = create_scenarios(impulse_counter_def, waiting_def, detection_counter_VT_max, ...
+    detection_counter_FVT_max, threshold_VT_max, threshold_VT_FVT, ES_waiting, LOC_increment, ES_max, videoTitle)
 
 % node_table: Cell array, each row contains parameters for one node
 %
@@ -51,13 +51,10 @@ path_table = {
 % set ATP_table{11} = ATP_table{12} if you don't want redetection
 % be sure to set ATP_table{4} = ATP_table{5} from start
 
-%ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0, 7};
+% these are my suggested initial values
+% ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0, 7, 1};
+
+
 ATP_table = {1, 0, impulse_counter_def, waiting_def, waiting_def, 0, 1, 0, detection_counter_VT_max, ...
     0, detection_counter_FVT_max, [inf,inf], 0, 0, 2, 2, threshold_VT_max, threshold_VT_FVT, ...
     0, 0, ES_waiting, 0, 0, LOC_increment, ES_max};
-
-
-
-%save mat structure
-% save('reentry.mat', 'node_table', 'path_table');
-% save('AATP.mat', 'ATP_table');

@@ -1,4 +1,4 @@
-function circuit_example(x, y, cx, cy, node_table, path_table, iteration, imdata, crash)
+function circuit_example(x, y, cx, cy, node_table, path_table, iteration, imdata, crash, realTimeVis)
 node_color = cell(6,1);
 
 state = zeros(1,6); % to store the current state of each path
@@ -17,20 +17,6 @@ for i=1:6
     end
 end
 
-% for i=1:6
-%     if path_table{i,2} == 1 % idle
-%         path_color{i,1} = [0, 0, 0]; % black
-%     elseif path_table{i,2} == 2 % ante conduction
-%         path_color{i,1} = [0, 1, 0]; % green
-%     elseif path_table{i,2} == 3 % retro conduction
-%         path_color{i,1} = [0, 0, 1]; % blue
-%     elseif path_table{i,2} == 4 % temp (rare)
-%         path_color{i,1} = [1, 0, 0]; % red
-%     elseif path_table{i,2} == 5 % crash
-%         path_color{i,1} = [0.9290, 0.6940, 0.1250]; % orange
-%     end
-% end
-
 a = 1;
 b = 2;
 for i = 1:6
@@ -48,6 +34,7 @@ for i = 1:6
         end
         
         % gradient from black [0,0,0] to yellow [1,1,0]
+        
         c(:,1) = linspace(0, 1, increment)';
         c(:,2) = linspace(0, 1, increment)';
         c(:,3) = linspace(0, 0, increment)';
@@ -77,6 +64,11 @@ for i = 1:6
         
         if crash(i) == 1
             scatter(xi, yi, [], 'r', 'filled');
+            if realTimeVis == 1
+                beep on
+                beep
+                beep off
+            end
         else
             scatter(xi, yi, [], 'k', 'filled');
         end
@@ -144,7 +136,6 @@ axis tight
 set(gca,'XTick',[], 'YTick', [])
 
 drawnow
-cla
 
 end
 

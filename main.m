@@ -6,6 +6,10 @@ impulse = zeros(1,4000);  % for graphing ATP impulses
 node_1_tracker = zeros(1,4000);
 CL_tracker = zeros(1,4000);
 RCL_tracker = zeros(1,4000);
+SPA_ante = zeros(1,4000);
+SPA_retro = zeros(1,4000);
+FPC_ante = zeros(1,4000); 
+FPC_retro = zeros(1,4000);
 
 
 t=1;
@@ -36,6 +40,14 @@ cy = [1, 1/2, -1/2, -1, -1/2, 1/2];
  
 gifCounter = 1;
 
+if realTimeVis == 1
+    v = VideoWriter(char(videoTitle));
+    
+    %  total time: 60s, total frames: 4000
+    v.FrameRate = 30; % frames/sec
+    open(v);
+end
+
  % Running the model
  while t <= 4000
      
@@ -45,7 +57,8 @@ gifCounter = 1;
         
         
         % first impulse
-        %120 initiates tachicardia
+        % 120 initiates tachycardia
+        
         if t==20
             node_table{1,9} = 1;
             premature(t) = 1;
@@ -78,7 +91,7 @@ gifCounter = 1;
         impulse(t) = ATP_table{6};
         RCL_tracker(t) = RCL;
       
-        [ATP_table] = detection(t, cycle_length, ATP_table);
+        [ATP_table] = detection(t, cycle_length, ATP_table, realTimeVis);
        
      
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,37 +119,39 @@ gifCounter = 1;
         
         SPA_ante(t) = path_table{1,15};
         SPA_retro(t) = path_table{1,14};
-%         SPB_ante(t) = path_table{2,15}; 
-%         SPB_retro(t) = path_table{2,14}; 
-%         SPC_ante(t) = path_table{3,15}; 
-%         SPC_retro(t) = path_table{3,14}; 
-%         FPA_ante(t) = path_table{6,15}; 
-%         FPA_retro(t) = path_table{6,14}; 
-%         FPB_ante(t) = path_table{5,15}; 
-%         FPB_retro(t) = path_table{5,14}; 
-        FPC_ante(t) = path_table{4,15}; 
-        FPC_retro(t) = path_table{4,14}; 
-%         int_ante(t) = path_table{7,15};
-%         int_retro(t) = path_table{7,14};
+        FPC_ante(t) = path_table{6,15}; 
+        FPC_retro(t) = path_table{6,14}; 
     
-
-        gifImageTitle = ['heart', num2str(gifCounter), '.jpg'];
-        imdata = imread(gifImageTitle);
-        
-        
-        % Circuit Image
-        % circuit_example(x, y, cx, cy, node_table, path_table, t, imdata, crash);
-        
-        if gifCounter == 24
-            gifCounter = 1;
-        elseif gifCounter < 24
-            gifCounter = gifCounter + 1;
+        if realTimeVis == 1
+            gifImageTitle = ['heart', num2str(gifCounter), '.jpg'];
+            imdata = imread(gifImageTitle);
+            
+            
+            % Circuit Image
+            circuit_example(x, y, cx, cy, node_table, path_table, t, imdata, crash, realTimeVis);
+            
+            video = getframe(gcf);
+            writeVideo(v, video);
+            cla % clear axes for faster run time
+            
+            if gifCounter == 24
+                gifCounter = 1;
+            elseif gifCounter < 24
+                gifCounter = gifCounter + 1;
+            end
         end
         
      t=t+1;
      
  end
- 
+
+if realTimeVis == 1
+    close(v); 
+end
+
+saveName = 'Circuit History';
+
+figure('Name', saveName, 'Position', [4000, 40, 790, 560])
 subplot(6,1,1)
 plot(impulse)
 title('ATP Impulse')
@@ -145,18 +160,6 @@ subplot(6,1,2)
 plot(premature)
 title('Premature Impulse')
 
-% subplot(5,1,2)
-% plot(int_ante)
-% title('Intervening Ante')
-
-% subplot(5,1,3)
-% plot(int_retro)
-% title('Intervening Retro')
-
-% subplot(7,1,3)
-% plot(node_1_tracker)
-% title('Node 1 Tracker')
-
 subplot(6,1,3)
 plot(SPA_ante)
 title('SPA-A')
@@ -164,23 +167,7 @@ title('SPA-A')
 subplot(6,1,4)
 plot(SPA_retro)
 title('SPA-R')
- 
-% subplot(6,1,2)
-% plot(SPB_ante)
-% title('SPB-A')
-% 
-% subplot(6,1,3)
-% plot(SPC_ante)
-% title('SPC-A')
- 
-% subplot(6,1,4)
-% plot(FPC_retro)
-% title('FPC-R')
-% 
-% subplot(6,1,5)
-% plot(FPB_retro)
-% title('FPB-R')
-% 
+
 subplot(6,1,5)
 plot(FPC_ante)
 title('FPC-A')
@@ -188,6 +175,11 @@ title('FPC-A')
 subplot(6,1,6)
 plot(FPC_retro)
 title('FPC-R')
+xlabel('Time (ms/10)')
 
+print(saveName, '-djpeg', '-r300')
+
+close all 
+% these are for debugging purposes
 % plot(CL_tracker)
 % plot(RCL_tracker)

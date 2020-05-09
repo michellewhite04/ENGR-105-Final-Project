@@ -45,7 +45,7 @@ function [node_table,path_table, crash]=heart_model(node_table,path_table, crash
            node_table{i,11}=0;
            %---------------------------------
            % update parameters for each node
-           [temp_node(i,:),temp_path_node]=node_automatron(node_table(i,:), temp_path_node);
+           [temp_node(i,:),temp_path_node]=node_automaton(node_table(i,:), temp_path_node);
            
            % create local variables for node activation signals
            % temp_act is 1 row, transposed LATER into 1 column
@@ -56,7 +56,7 @@ function [node_table,path_table, crash]=heart_model(node_table,path_table, crash
        for i=1:size(path_table,1)
            
            % update parameters for each path
-           [temp_path(i,:),node_act_1,node_act_2, crash(i)]=path_automatron(path_table(i,:),node_table{path_table{i,3},9},node_table{path_table{i,4},9}, crash(i));
+           [temp_path(i,:),node_act_1,node_act_2, crash(i)]=path_automaton(path_table(i,:),node_table{path_table{i,3},9},node_table{path_table{i,4},9}, crash(i));
            
            %-----------------------------------------------------------
            % for graphing purposes
@@ -111,7 +111,7 @@ function [node_table,path_table, crash]=heart_model(node_table,path_table, crash
        for i=1:length(ind)
           % update for_time_def value
           % for_time_cur will be updated by for_time_def in next
-          % path_automatron call
+          % path_automaton call
           temp_path{ind(i),9}=temp_path_node{ind(i),9};
           
           % if the path is still in idle state, update for_time_cur now
@@ -126,7 +126,7 @@ function [node_table,path_table, crash]=heart_model(node_table,path_table, crash
        for i=1:length(ind)
           % update back_time_def value
           % back_time_cur will be updated by back_time_def in next
-          % path_automatron call
+          % path_automaton call
           temp_path{ind(i),11}=temp_path_node{ind(i),11};
           
           % if the path is still in idle state, update back_time_cur now

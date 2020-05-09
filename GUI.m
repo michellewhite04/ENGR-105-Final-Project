@@ -55,6 +55,8 @@ function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for GUI
 handles.output = hObject;
+set(hObject, 'Position', [200, 110, 790, 630]); % set GUI to open in center of screen
+
 
 % define the starting, minimum, and maximum slider values for each popupmenu option
 
@@ -287,7 +289,7 @@ end
 % REPORT THE VALUES ASSOCIATED WITH THE SLIDER POSITION FOR EACH
 % VALUE - JUST TO CHECK THAT VALUES ARE BEING TRACKED NICELY.
 
-bigBox = {['Beats per train is: ',floor(num2str(handles.option1.cValue))]; 
+mainText = {['Beats per train is: ',floor(num2str(handles.option1.cValue))]; 
     ['Cycle length is: ',floor(num2str(handles.option2.cValue))]; 
     ['Number of detection beats for VT is: ',floor(num2str(handles.option3.cValue))]; 
     ['Number of detection beats for FVT is: ',floor(num2str(handles.option4.cValue))]; 
@@ -297,7 +299,7 @@ bigBox = {['Beats per train is: ',floor(num2str(handles.option1.cValue))];
     ['Extrastimulus cycle length is: ',floor(num2str(handles.option8.cValue))];
     ['Cycle length increase upon loss of capture is: ',floor(num2str(handles.option9.cValue))]}; 
 
-set(handles.text2, 'String', bigBox, 'FontSize', 14);
+set(handles.text2, 'String', mainText, 'FontSize', 14);
 
 % DONT FORGET TO SAVE THE HANDLES STRUCTURE AS WE HAVE UPDATES THE
 % cValue VARIABLES WE WANT TO TRACK!
@@ -342,14 +344,17 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-[node_table, path_table, ATP_table]  = create_scenarios(floor(handles.option1.cValue), ...
+
+[node_table, path_table, ATP_table, videoTitle]  = create_scenarios(floor(handles.option1.cValue), ...
     floor(handles.option2.cValue), floor(handles.option3.cValue), floor(handles.option4.cValue), ...
     floor(handles.option5.cValue), floor(handles.option6.cValue), floor(handles.option8.cValue), ...
-    floor(handles.option9.cValue), floor(handles.option7.cValue)); % option7 is last on purpose!!
-
-main(node_table, path_table, ATP_table, 1, handles.edit2.String)
+    floor(handles.option9.cValue), floor(handles.option7.cValue), handles.edit2.String); % option7 is last on purpose!!
 
 closereq();
+
+main(node_table, path_table, ATP_table, 1, videoTitle)
+
+
 
 
 % --- Executes on button press in pushbutton2.
@@ -358,13 +363,15 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-[node_table, path_table, ATP_table]  = create_scenarios(floor(handles.option1.cValue), ...
+[node_table, path_table, ATP_table, videoTitle]  = create_scenarios(floor(handles.option1.cValue), ...
     floor(handles.option2.cValue), floor(handles.option3.cValue), floor(handles.option4.cValue), ...
     floor(handles.option5.cValue), floor(handles.option6.cValue), floor(handles.option8.cValue), ...
-    floor(handles.option9.cValue), floor(handles.option7.cValue)); % option7 is last on purpose!!
-
-main(node_table, path_table, ATP_table, 0, 0)
+    floor(handles.option9.cValue), floor(handles.option7.cValue), 0); % option7 is last on purpose!!
 
 closereq();
+
+main(node_table, path_table, ATP_table, 0, videoTitle)
+
+
 
 
