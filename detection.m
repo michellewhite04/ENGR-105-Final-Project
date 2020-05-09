@@ -46,7 +46,8 @@ function [ATP_table] = detection(t, cycle_length, ATP_table)
                             ATP_table{13} = 0;
                             ATP_table{14} = 0;
                             S = 'badsong_48kHz.mp3';
-                            sound(S.y,S.Fs)
+                            [y,Fs] = audioread(S);
+                            sound(y,Fs)
                         else
 
                             ATP_table{23} = 1; % don't apply AATP
