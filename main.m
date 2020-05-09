@@ -1,6 +1,5 @@
-function main(node_table, path_table, ATP_table)
-
-a = 1;
+function main(node_table, path_table, ATP_table, realTimeVis, videoTitle)
+% realTimeVis is a boolean
 
 premature = zeros(1,4000); % for graphing premature impulse
 impulse = zeros(1,4000);  % for graphing ATP impulses
@@ -52,9 +51,6 @@ gifCounter = 1;
             premature(t) = 1;
         end
         
-        if t==1000
-            a = 1;
-        end
         
 % %       manually initiate DWR
 %          if t == 5880
@@ -109,7 +105,7 @@ gifCounter = 1;
         % activation of entry node = retrograde cond
         
         SPA_ante(t) = path_table{1,15};
-%         SPA_retro(t) = path_table{1,14};
+        SPA_retro(t) = path_table{1,14};
 %         SPB_ante(t) = path_table{2,15}; 
 %         SPB_retro(t) = path_table{2,14}; 
 %         SPC_ante(t) = path_table{3,15}; 
@@ -118,18 +114,18 @@ gifCounter = 1;
 %         FPA_retro(t) = path_table{6,14}; 
 %         FPB_ante(t) = path_table{5,15}; 
 %         FPB_retro(t) = path_table{5,14}; 
-%         FPC_ante(t) = path_table{4,15}; 
+        FPC_ante(t) = path_table{4,15}; 
         FPC_retro(t) = path_table{4,14}; 
 %         int_ante(t) = path_table{7,15};
 %         int_retro(t) = path_table{7,14};
     
 
-        title = ['heart', num2str(gifCounter), '.jpg'];
-        imdata = imread(title);
+        gifImageTitle = ['heart', num2str(gifCounter), '.jpg'];
+        imdata = imread(gifImageTitle);
         
         
         % Circuit Image
-        circuit_example(x, y, cx, cy, node_table, path_table, t, imdata, crash);
+        % circuit_example(x, y, cx, cy, node_table, path_table, t, imdata, crash);
         
         if gifCounter == 24
             gifCounter = 1;
@@ -137,19 +133,15 @@ gifCounter = 1;
             gifCounter = gifCounter + 1;
         end
         
-
-
-       
-        
      t=t+1;
      
  end
-
-subplot(4,1,1)
+ 
+subplot(6,1,1)
 plot(impulse)
 title('ATP Impulse')
 
-subplot(4,1,2)
+subplot(6,1,2)
 plot(premature)
 title('Premature Impulse')
 
@@ -165,14 +157,14 @@ title('Premature Impulse')
 % plot(node_1_tracker)
 % title('Node 1 Tracker')
 
-subplot(4,1,3)
+subplot(6,1,3)
 plot(SPA_ante)
 title('SPA-A')
-% 
-% subplot(4,1,3)
-% plot(SPA_ante)
-% title('SPA-A')
-%  
+
+subplot(6,1,4)
+plot(SPA_retro)
+title('SPA-R')
+ 
 % subplot(6,1,2)
 % plot(SPB_ante)
 % title('SPB-A')
@@ -189,16 +181,13 @@ title('SPA-A')
 % plot(FPB_retro)
 % title('FPB-R')
 % 
-subplot(4,1,4)
+subplot(6,1,5)
+plot(FPC_ante)
+title('FPC-A')
+
+subplot(6,1,6)
 plot(FPC_retro)
 title('FPC-R')
 
-% subplot(4,1,4)
-% plot(FPA_ante)
-% title('FPA-A')
-
 % plot(CL_tracker)
 % plot(RCL_tracker)
-
-
- 
