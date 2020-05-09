@@ -8,7 +8,7 @@ function [node_table, ATP_table, RCL, RCL_counter] = AATP(node_table, ATP_table,
 %          detection_sum_VT, detection_sum_FVT,
 %          redection_counter_cur, redetection_counter_def,
 %          threshold_VT_max, threshold_VT/FVT, ES_def,
-%          decision_apply, decision_termination}
+%          decision_apply, decision_termination, LOC_increment, ES_max}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
     ATP_table{6} = 0; % for graphing purposes
@@ -38,10 +38,10 @@ function [node_table, ATP_table, RCL, RCL_counter] = AATP(node_table, ATP_table,
                      
                      % to allow double-wave reentry
                      if node_table{6,2} == 1
-                        node_table{6,3} = 110;
-                        node_table{6,4} = 110;
+                        node_table{6,3} = 11;
+                        node_table{6,4} = 11;
                      else 
-                        node_table{6,4} = 110;
+                        node_table{6,4} = 11;
                      end
                      
                 else
@@ -87,7 +87,7 @@ function [node_table, ATP_table, RCL, RCL_counter] = AATP(node_table, ATP_table,
             margin = ATP_table{21} + 5; %*******************************
             if RCL > 0
                 if RCL <= VTCL + margin && RCL >= VTCL - margin %reset
-                    if ATP_table{20} < 2
+                    if ATP_table{20} < ATP_table{25}
                         ATP_table{20} = ATP_table{20} + 1;
                         ATP_table{1} = 2;
                     else 
@@ -101,11 +101,11 @@ function [node_table, ATP_table, RCL, RCL_counter] = AATP(node_table, ATP_table,
                  if RCL < VTCL - margin %LOC
                      if ATP_table{20} == 0
 %                        ATP_table{3} = ceil(abs(((RCL - VTCL)/(VTCL - ATP_table{5})))) + 1; % set according to Kaiser eqn
-                        ATP_table{5} = ATP_table{5} + 7;
+                        ATP_table{5} = ATP_table{5} + ATP_table{24};
                         ATP_table{1} = 2;
                      else
 %                         ATP_table{21} = ATP_table{21} - 10;
-                        ATP_table{5} = ATP_table{5} + 7;
+                        ATP_table{5} = ATP_table{5} + ATP_table{24};
                         ATP_table{1} = 2;
                         
                      end

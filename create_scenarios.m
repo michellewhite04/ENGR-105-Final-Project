@@ -1,4 +1,5 @@
-function [node_table, path_table, ATP_table] = create_scenarios(impulse_counter_def, waiting_def, detection_counter_VT_max, detection_counter_FVT_max, threshold_VT_max, threshold_VT_FVT, ES_def, ES_waiting)
+function [node_table, path_table, ATP_table] = create_scenarios(impulse_counter_def, waiting_def, detection_counter_VT_max, ...
+    detection_counter_FVT_max, threshold_VT_max, threshold_VT_FVT, ES_waiting, LOC_increment, ES_max)
 
 % node_table: Cell array, each row contains parameters for one node
 %
@@ -24,13 +25,10 @@ function [node_table, path_table, ATP_table] = create_scenarios(impulse_counter_
 %          detection_sum_VT, detection_sum_FVT,
 %          redection_counter_cur, redetection_counter_def,
 %          threshold_VT_max, threshold_VT_FVT, ES_cur, ES_def,
-%          ES_waiting, decision_apply, decision_termination}
+%          ES_waiting, decision_apply, decision_termination, LOC_increment, 
+%          ES_max}
 
-%create tables for reentry
-node_table=cell(7,13);
-path_table=cell(7,15);
-
-%initialize tables
+% initialize node and path tables
 node_table = {
     'One', 1, 1, 1, 0, 0, 100, 100, 1, 0, 0, 0, 0;
     'Two', 1, 8, 8, 0, 0, inf, inf, 0, 0, 0, 0, 0;
@@ -39,9 +37,6 @@ node_table = {
     'Five', 1, 11, 11, 0, 0, inf, inf, 0, 0, 0, 0, 0;
     'Six', 1, 32, 32, 0, 0, inf, inf, 0, 0, 0, 0, 0;
     'begin', 1, 1, 1, 0, 0, inf, inf, 0, 0, 0, 0, 0};
-
-
-
 
 path_table = {
     'SPA', 1, 1, 2, 0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0;
@@ -52,17 +47,15 @@ path_table = {
     'FPC', 1, 5, 4, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0;
     'intervening', 1, 7, 1, 0, 0, 0, 30, 30, 30, 30, 0, 0, 0, 0};
 
-% ATP
-ATP_table = cell(1,23);
+% intitialize ATP table
+% set ATP_table{11} = ATP_table{12} if you don't want redetection
+% be sure to set ATP_table{4} = ATP_table{5} from start
 
-%intitialize ATP table
-%set ATP_table{11} = ATP_table{12} if you don't want redetection
-%be sure to set ATP_table{4} = ATP_table{5} from start
+%ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0, 7};
+ATP_table = {1, 0, impulse_counter_def, waiting_def, waiting_def, 0, 1, 0, detection_counter_VT_max, ...
+    0, detection_counter_FVT_max, [inf,inf], 0, 0, 2, 2, threshold_VT_max, threshold_VT_FVT, ...
+    0, 0, ES_waiting, 0, 0, LOC_increment, ES_max};
 
-%ATP_table = {1, 0, 7, 25, 25, 0, 1, 0, 10, 0, 10, [inf,inf], 0, 0, 2, 2, 60, 32, 0, 0, 6, 0, 0};
-ATP_table = {1, 0, impulse_counter_def, 33, waiting_def, 0, 1, 0, detection_counter_VT_max, 0, detection_counter_FVT_max, [inf,inf], 0, 0, 2, 2, threshold_VT_max, threshold_VT_FVT, 0, ES_def, ES_waiting, 0, 0};
-
-a = 1;
 
 
 %save mat structure

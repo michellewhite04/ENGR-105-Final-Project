@@ -38,16 +38,18 @@ function [ATP_table] = detection(t, cycle_length, ATP_table)
                     else
                         if ATP_table{13} >= ((ATP_table{9}*2) - 1) || ATP_table{14} >= ((ATP_table{11}*2) - 1) % sum for 16 consecutive beats
                             
-                            ATP_table{22} = 1;
+                            ATP_table{22} = 1; % apply AATP
 
                             % reset values after application
                             ATP_table{8} = 0;
                             ATP_table{12} = [inf, inf];
                             ATP_table{13} = 0;
                             ATP_table{14} = 0;
+                            S = 'badsong_48kHz.mp3';
+                            sound(S.y,S.Fs)
                         else
 
-                            ATP_table{23} = 1;
+                            ATP_table{23} = 1; % don't apply AATP
 
                             % still reset values
                             ATP_table{8} = 0;
